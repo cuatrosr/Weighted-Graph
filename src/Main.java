@@ -31,7 +31,11 @@ class Distance {
 class DistanceComparator implements Comparator<Distance> {
 
     public int compare(Distance d1, Distance d2) {
-        return d1.getDist() - d2.getDist();
+        if (d1.getDist() < d2.getDist()) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 }
 
@@ -114,15 +118,13 @@ public class Main {
     public static void dijkstra(Graph g, int n, int s) {
         int[] dist = new int[n];
         int[] prev = new int[n];
-        Distance[] d = new Distance[n];
         PriorityQueue<Distance> q = new PriorityQueue(n, new DistanceComparator());
         dist[s] = 0;
         for (int i = 0; i < n; i++) {
             if (i != s) {
-                dist[i] = Integer.MAX_VALUE;
+                dist[i] = 1000;
             }
             prev[i] = -1;
-            d[i] = new Distance(i, dist[i]);
             q.add(new Distance(i, dist[i]));
         }
         soutDist(dist);
@@ -161,7 +163,7 @@ public class Main {
     public static void soutDist(int[] dist) {
         System.out.print("[");
         for (int i = 0; i < dist.length; i++) {
-            if (dist[i] == Integer.MAX_VALUE) {
+            if (dist[i] == 1000) {
                 System.out.print("∞");
             } else {
                 System.out.print(dist[i]);
